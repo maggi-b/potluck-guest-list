@@ -10,11 +10,15 @@ const guestList = document.querySelector(".guest-list");
 const guestCount = document.querySelector(".attendance");
 // alert when guest list is full (not yet visible)
 const guestFull = document.querySelector(".alert");
+// assign food to guests when list is full
+const assignButton = document.querySelector(".assign");
+// list of guest and assigned food
+const assignedItem = document.querySelector(".assigned-items");
 
 
-addGuestButton.addEventListener("click", function() {
+addGuestButton.addEventListener("click", function () {
     const guest = guestInput.value;
-//    console.log(guest);
+    //    console.log(guest);
     if (guest !== "") {
         clearInput();
         addToList(guest);
@@ -43,5 +47,24 @@ const updateGuestCount = function () {
         guestInputLabel.classList.add("hide");
         guestFull.classList.remove("hide");
     }
-
 };
+
+const assignItems = function () {
+    const potluckItems = ["potato salad", "hummus", "fruit", "cookies", "macaroni salad", "chicken sliders", "lemon cake", "soup", "meatballs", "queso", "kabobs", "sandwhiches"];
+    const allGuests = document.querySelectorAll(".guest-list li");
+    for (let guest of allGuests) {
+        let randomPotluckIndex = Math.floor(Math.random() * potluckItems.length);
+        let randomPotluckItem = potluckItems[randomPotluckIndex];
+        
+        let listItem = document.createElement("li");
+        listItem.innerText = `${guest.innerText} is bringing ${randomPotluckItem}.`;
+        assignedItem.append(listItem);
+
+        potluckItems.splice(randomPotluckIndex, 1);
+    }
+};
+
+assignButton.addEventListener("click", function () {
+    assignItems();
+    assignButton.disabled = true;
+});
